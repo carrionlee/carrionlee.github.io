@@ -2,11 +2,11 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://carrionlee.github.io</id>
     <title>腐邸</title>
-    <updated>2020-11-17T14:04:25.095Z</updated>
+    <updated>2020-11-17T14:04:38.257Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://carrionlee.github.io"/>
     <link rel="self" href="https://carrionlee.github.io/atom.xml"/>
-    <subtitle>随便谢谢</subtitle>
+    <subtitle>随便写写</subtitle>
     <logo>https://carrionlee.github.io/images/avatar.png</logo>
     <icon>https://carrionlee.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 腐邸</rights>
