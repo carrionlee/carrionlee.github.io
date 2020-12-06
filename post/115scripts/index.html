@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>115 油猴脚本通过第三方下载器下载 | 腐邸</title>
+<meta name="description" content="随便写写">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://carrionlee.github.io/favicon.ico?v=1607255712664">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://carrionlee.github.io/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://carrionlee.github.io">
+        <img class="avatar" src="https://carrionlee.github.io/images/avatar.png?v=1607255712664" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://carrionlee.github.io">
+        <h1 class="site-title">腐邸</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://carrionlee.github.io/post-images/115scripts.jpeg')">
+            </div>
+          
+          <h2 class="post-title">115 油猴脚本通过第三方下载器下载</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2020-12-06</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://carrionlee.github.io/tag/rPnyRA8GS/">
+                    115
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>115 最近禁用了网页端的下载功能，原有的 <a href="https://github.com/acgotaku/115">115exporter</a> 扩展无法导出到 aria2 下载了，只能通过 115 官方客户端下载了。但是 115 官方客户端下载有两个缺点：无法校验下载文件的完整性，无法多线程下载。第一个缺点是致命的，经常会造成辛辛苦苦下载下来的影音文件出现播放错误的问题。</p>
+<img src="https://carrionlee-1257834435.cos.ap-shanghai.myqcloud.com/wechat/2020-12-06-091913.png" alt="115禁用了网页端下载功能" style="zoom:50%;" />
+<p>幸亏在网友的帮助下，找到一个油猴脚本，可以通过第三方浏览器获得 115 文件的下载地址，并传递到第三方下载器，比如 IDM, aria2 等等。下面我以 aria2 作为下载器做一个记录。</p>
+<ol>
+<li>
+<p>我使用的是firefox，首先安装油猴脚本的扩展，我安装的是<a href="https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/">暴力猴扩展</a>。</p>
+</li>
+<li>
+<p>安装 <a href="https://github.com/kkHAIKE/fake115/blob/master/fake115.user.js">fake115</a> 脚本，让第三方浏览器冒充115官方浏览器。无法访问 github 的同学，可以通过 <a href="https://115.com/s/sw3c9cs33eo?password=b744&amp;#fake115.user.js%E8%AE%BF%E9%97%AE%E7%A0%81%EF%BC%9Ab744">115分享 </a>下载</p>
+<img src="https://carrionlee-1257834435.cos.ap-shanghai.myqcloud.com/wechat/2020-12-06-093104.png" alt="点击raw进行安装" style="zoom:50%;" />
+</li>
+<li>
+<p>关键步骤，安装 <a href="https://greasyfork.org/zh-CN/scripts/408466-115%E4%BC%98%E5%8C%96%E5%A4%A7%E5%B8%88">115 优化大师</a> 脚本，这样可以获取到 115 文件的下载地址</p>
+<img src="https://carrionlee-1257834435.cos.ap-shanghai.myqcloud.com/wechat/2020-12-06-093440.png" alt="安装115优化大师" style="zoom:50%;" />
+</li>
+<li>
+<p>安装 aria2 浏览器扩展，我使用的是 <a href="https://addons.mozilla.org/en-US/firefox/addon/aria2-integration/">Aria2 Download Manager Integration</a>。安装完成后，进入选项，填入 aria2 的相关参数，我是直接下载到 nas 上的。</p>
+<img src="https://carrionlee-1257834435.cos.ap-shanghai.myqcloud.com/wechat/2020-12-06-094032.png" alt="填入aria2相关参数" style="zoom:50%;" />
+</li>
+<li>
+<p>Firefox 打开 <a href="https://115.com">115主页</a> 并登录，点击暴力猴图标，应该可以看到之前两个安装的脚本已经在此页面运行了</p>
+<img src="https://carrionlee-1257834435.cos.ap-shanghai.myqcloud.com/wechat/2020-12-06-112503.png" alt="115脚本" style="zoom:50%;" />
+</li>
+<li>
+<p>选中某一文件，可以看到跳出来 <code>快捷下载</code> 的按钮，点击即可下载。这里要注意，此脚本只支持获得单个文件的下载链接，而无法下载整个文件夹。</p>
+<img src="https://carrionlee-1257834435.cos.ap-shanghai.myqcloud.com/wechat/2020-12-06-115021.png" alt="点击快捷下载进行下载" style="zoom: 50%;" />
+</li>
+<li>
+<p>点击 <code>快捷下载</code> 按钮后，Aria2 Download Manager Integration 会跳出一个选择框，点击 <code>下载</code> 按钮即可以通过 aria2 进行下载了。如果点击 <code>保存</code> 按钮则会通过浏览器自带下载器下载到本地。</p>
+<img src="https://carrionlee-1257834435.cos.ap-shanghai.myqcloud.com/wechat/2020-12-06-113138.png" alt="传递给aria2下载" style="zoom:50%;" />
+</li>
+<li>
+<p>此时可以通过 Aria2 Download Manager Integration 打开 aria2 的 web 界面，可以看到 aria2 已经开始下载了，我这里可以达到3个线程，速度在 36M/s 左右</p>
+<img src="https://carrionlee-1257834435.cos.ap-shanghai.myqcloud.com/wechat/2020-12-06-113551.png" alt="打开aria2 webui" style="zoom: 50%;" />
+</li>
+</ol>
+<img src="https://carrionlee-1257834435.cos.ap-shanghai.myqcloud.com/wechat/2020-12-06-113547.png" alt="aria2多进程下载" style="zoom:67%;" />
+<p>此方法使用的接口不需要 cookies 以及 UA 验证，我估计过不了多久可能就会被封掉，且用且珍惜吧</p>
+
+          </div>
+        </div>
+
+        
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">随便写写</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://carrionlee.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>
