@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>手机远程通过 aria2 下载 115 资源方法 | 腐邸</title>
+<meta name="description" content="随便写写">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://carrionlee.github.io/favicon.ico?v=1607791695747">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://carrionlee.github.io/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://carrionlee.github.io">
+        <img class="avatar" src="https://carrionlee.github.io/images/avatar.png?v=1607791695747" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://carrionlee.github.io">
+        <h1 class="site-title">腐邸</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">手机远程通过 aria2 下载 115 资源方法</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2020-12-13</span>
+            
+          </div>
+          <div class="post-content">
+            <p>工作性质关系并不能时刻使用电脑，所以无法通过常规桌面浏览器 115 下载资源到家里的 nas 中。比较常规的做法是家中 nas 开一个 windows 虚拟机，需要 115 下载时，手机通过远程桌面连到家中虚拟机桌面进行相应操作。但是这个方法对 nas 有一定的性能要求，一些朋友的黑群晖性能并不怎么样（比如矿渣蜗牛），运行 windows 虚拟机有点吃力。所幸 firefox 有 docker 版本，所以这里记录下群晖使用 docker 安装 firefox，然后远程连接 firefox 登录 115 进行下载的方法。</p>
+<ol>
+<li>
+<p>docker 安装 firefox</p>
+<p>firefox 使用 <code>jlesage/firefox</code> 的版本，需要修改一些自定义参数，群晖的 docker 图形界面不支持修改docker的命令参数，所以要从命令行安装。使用称手的工具 ssh 进群晖后，运行如下命令</p>
+<pre><code>sudo docker run -d --name=firefox -p 5800:5800 -p 5900:5900 -v /volume1/docker/firefox:/config:rw -e KEEP_APP_RUNNING=1 -e ENABLE_CJK_FONT=1 --shm-size 2g --security-opt seccomp=unconfined  jlesage/firefox:latest
+</code></pre>
+<ul>
+<li>
+<p>5800 是 novnc 的 webui 端口号，5900 是 vnc 的端口号</p>
+</li>
+<li>
+<p><code>/volume1/docker/firefox</code> 是群晖本地存放 firefox 配置文件的位置。建议所有的 docker 配置目录都统一放在一个文件夹下面</p>
+<img src="https://carrionlee-1257834435.cos.ap-shanghai.myqcloud.com/wechat/2020-12-12-161642.png" alt="firefox docker 配置文件目录" style="zoom:50%;" />
+</li>
+<li>
+<p><code>KEEP_APP_RUNNING=1</code> 是保持 firefox 一直运行，即使关闭所有标签页也会重开 firefox</p>
+</li>
+<li>
+<p><code>ENABLE_CJK_FONT=1</code> 是安装文泉驿字体，这样可以正常显示中文</p>
+</li>
+<li>
+<p><code>/dev/shm</code> 共享内存文件的大小，官方建议设置为 2G</p>
+</li>
+<li>
+<p><code>--security-opt seccomp=unconfined</code> 不加这句 firefox 启动好网页会报错，必须加</p>
+<p>运行后，等待 docker 运行成功，此时打开容器界面会出现运行的 firefox docker</p>
+<img src="https://carrionlee-1257834435.cos.ap-shanghai.myqcloud.com/wechat/2020-12-12-162421.png" alt="firefox docker成功运行" style="zoom:50%;" />
+</li>
+</ul>
+</li>
+<li>
+<p>VNC Viewer 访问 firefox</p>
+<p>下载 <a href="https://www.realvnc.com/en/connect/download/viewer/">VNC viewer</a> 用来远程连接 firefox。可以先下载 PC 端或者 Mac 端桌面软件予以调试，成功后再在手机端安装。安装好桌面端后，在地址栏输入 群晖IP::端口号（两个冒号），之前 VNC 端口号设置的是 5900</p>
+<img src="https://carrionlee-1257834435.cos.ap-shanghai.myqcloud.com/wechat/2020-12-12-163238.png" alt="顺利打开 firefox" style="zoom:50%;" />
+</li>
+<li>
+<p>安装 firefox 扩展</p>
+<ul>
+<li>
+<p>安装 aria2 浏览器扩展，我使用的是 <a href="https://addons.mozilla.org/en-US/firefox/addon/aria2-integration/">Aria2 Download Manager Integration</a>。安装完成后，进入选项，填入 aria2 的相关参数。这样就可以通过它观察 aria2 的下载进度，当然也可以使用 aria2 的手机 app 查看</p>
+<img src="https://carrionlee-1257834435.cos.ap-shanghai.myqcloud.com/wechat/2020-12-06-094032.png" alt="填入aria2相关参数" style="zoom:50%;" />
+</li>
+<li>
+<p>安装最新的 <a href="https://addons.mozilla.org/zh-CN/firefox/addon/115%E7%BD%91%E7%9B%98%E5%AF%BC%E5%87%BA/">115下载助手</a>，打开 115 主页并扫码登录（这样手机端和网页端可以同时登录），设置 115 下载助手里 aria2 的相应参数。记得要加上 <code>token</code> 参数，例如 <code>http://token:123456@群晖ip:端口号/jsonrpc</code></p>
+<img src="https://carrionlee-1257834435.cos.ap-shanghai.myqcloud.com/wechat/2020-12-12-163852.png" alt="iShot2020-12-12 23.55.24" style="zoom:50%;" />
+</li>
+</ul>
+</li>
+</ol>
+<p>至此，docker 版本的 firefox 就能够远程访问并通过 aria2 下载 115 资源到 nas 里了。如果想远程 vnc 访问 firefox，可以将 firefox 的 vnc 端口号映射到路由器，通过 ddns + 端口号的方式就能访问家中的 firefox 了。桌面端调试成功后，下载手机端 VNC Viewer，就能够愉快地远程下载 115 资源了，效果如下：</p>
+<figure data-type="image" tabindex="1"><img src="https://carrionlee-1257834435.cos.ap-shanghai.myqcloud.com/wechat/2020-12-12-164603.gif" alt="手机远程115下载效果" loading="lazy"></figure>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://carrionlee.github.io/post/115scripts/">
+              <h3 class="post-title">
+                下一篇：115 油猴脚本通过第三方下载器下载
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">随便写写</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://carrionlee.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>
